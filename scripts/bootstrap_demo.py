@@ -28,7 +28,7 @@ else:
           "admin[email]":"gabo.1985cr@gmail.com","admin[username]":creds["username"],
           "admin[password]":creds["password"],"admin[language]":"spanish",
           "company[company_name]":"Serael Recepcion Demo","company[company_email]":"gabo.1985cr@gmail.com",
-          "company[company_link]":"https://citas.divinosoft.com"}
+          "company[company_link]":"https://citas.divinosoft.ca"}
     with client.open(Request(base+"/installation/perform",data=urlencode(data).encode()),timeout=60) as r:
         result=json.load(r)
     if not result.get("success"):
