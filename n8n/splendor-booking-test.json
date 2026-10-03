@@ -1,0 +1,520 @@
+{
+  "name": "TEST — Splendor Booking Agent — EasyAppointments API",
+  "nodes": [
+    {
+      "id": "test-1",
+      "name": "Manual test",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "test-2",
+      "name": "Temporary test timer",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "test-3",
+      "name": "Run once guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const s=$getWorkflowStaticData('global'); if(s.completed)return []; return [{json:{testId:'serael-booking-agent-20261003',demo:true}}];"
+      }
+    },
+    {
+      "id": "test-4",
+      "name": "Read demo service",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://citas.divinosoft.ca/index.php/api/v1/services?length=100",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0EjC7gea96yUupBb",
+          "name": "EASY APPOINTMENTS API"
+        }
+      }
+    },
+    {
+      "id": "test-5",
+      "name": "Select demo service",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const service=$json.body.find(s=>s.name==='Cita de demostracion'); if(!service)throw Error('Demo service missing');return [{json:{service}}];"
+      }
+    },
+    {
+      "id": "test-6",
+      "name": "Read demo providers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://citas.divinosoft.ca/index.php/api/v1/providers?length=100",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0EjC7gea96yUupBb",
+          "name": "EASY APPOINTMENTS API"
+        }
+      }
+    },
+    {
+      "id": "test-7",
+      "name": "Prepare candidate dates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const service=$('Select demo service').first().json.service;const providers=$json.body;const provider=providers.find(p=>(p.services||[]).map(Number).includes(Number(service.id)));if(!provider)throw Error('No demo provider');if(provider.settings?.notifications!==false)throw Error('Test provider notifications must be off');const out=[];for(let i=2;i<=15;i++){const d=new Date(Date.now()+i*86400000);out.push({json:{date:d.toISOString().slice(0,10),service,providerId:provider.id}})}return out;"
+      }
+    },
+    {
+      "id": "test-8",
+      "name": "Check available slots",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1760,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'https://citas.divinosoft.ca/index.php/api/v1/availabilities?providerId='+$json.providerId+'&serviceId='+$json.service.id+'&date='+$json.date }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0EjC7gea96yUupBb",
+          "name": "EASY APPOINTMENTS API"
+        }
+      }
+    },
+    {
+      "id": "test-9",
+      "name": "Choose available slot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const candidates=$('Prepare candidate dates').all();const responses=$input.all();for(let i=0;i<responses.length;i++){const slots=responses[i].json.body;if(Array.isArray(slots)&&slots.length){const ctx=candidates[i].json;const start=ctx.date+' '+(String(slots[0]).length===5?slots[0]+':00':slots[0]);const d=new Date(start.replace(' ','T')+'Z');d.setUTCMinutes(d.getUTCMinutes()+Number(ctx.service.duration));return [{json:{serviceId:ctx.service.id,providerId:ctx.providerId,start,end:d.toISOString().slice(0,19).replace('T',' '),testId:'serael-booking-agent-20261003'}}]}}throw Error('No available test slots');"
+      }
+    },
+    {
+      "id": "test-10",
+      "name": "Create synthetic customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2200,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://citas.divinosoft.ca/index.php/api/v1/customers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({firstName:'Serael',lastName:'Prueba Agente n8n',email:'agent-booking-test-20261003@example.invalid',phone:'+50600000000',notes:'CLIENTE FICTICIO: prueba de integración, no contactar.'}) }}",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0EjC7gea96yUupBb",
+          "name": "EASY APPOINTMENTS API"
+        }
+      }
+    },
+    {
+      "id": "test-11",
+      "name": "Prepare test agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const slot=$('Choose available slot').first().json;const customer=$json.body;if(!customer.id)throw Error('No synthetic customer id');const booking={...slot,customerId:customer.id};const request={model:'anthropic/claude-sonnet-4.6',temperature:0,max_tokens:500,messages:[{role:'system',content:'Eres un agente de pruebas de integración de reservas. Tu única misión es llamar create_test_appointment con los datos exactos autorizados. Usa solo el servicio de demostración y el cliente ficticio indicados. No envíes mensajes ni hagas reservas de clínica reales. No cambies IDs, fechas ni horas.'},{role:'user',content:'Crea una cita de prueba autorizada con estos datos: '+JSON.stringify(booking)}],tools:[{type:'function',function:{name:'create_test_appointment',description:'Crear una única cita ficticia en EasyAppointments en el horario validado.',parameters:{type:'object',properties:{serviceId:{type:'integer'},providerId:{type:'integer'},customerId:{type:'integer'},start:{type:'string'},end:{type:'string'}},required:['serviceId','providerId','customerId','start','end'],additionalProperties:false}}}],tool_choice:{type:'function',function:{name:'create_test_appointment'}}};return [{json:{booking,request}}];"
+      }
+    },
+    {
+      "id": "test-12",
+      "name": "Test Agent — Decide Booking",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2640,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.request) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "credentials": {
+        "openRouterApi": {
+          "id": "oS6iTZuoSAzoc4wH",
+          "name": "SERAEL - OpenRouter API"
+        }
+      }
+    },
+    {
+      "id": "test-13",
+      "name": "Validate agent tool call",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const ctx=$('Prepare test agent').first().json;const calls=$json.choices?.[0]?.message?.tool_calls;if(calls?.length!==1||calls[0].function.name!=='create_test_appointment')throw Error('Agent did not select booking tool');const args=JSON.parse(calls[0].function.arguments);for(const k of ['serviceId','providerId','customerId','start','end'])if(args[k]!==ctx.booking[k])throw Error('Agent changed authorized '+k);return [{json:{...args,notes:'PRUEBA IA N8N — serael-booking-agent-20261003 — cita ficticia, no atender ni contactar.'}}];"
+      }
+    },
+    {
+      "id": "test-14",
+      "name": "Agent tool — Create Appointment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3080,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://citas.divinosoft.ca/index.php/api/v1/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0EjC7gea96yUupBb",
+          "name": "EASY APPOINTMENTS API"
+        }
+      }
+    },
+    {
+      "id": "test-15",
+      "name": "Verify saved Appointment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3300,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'https://citas.divinosoft.ca/index.php/api/v1/appointments/'+$json.body.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "0EjC7gea96yUupBb",
+          "name": "EASY APPOINTMENTS API"
+        }
+      }
+    },
+    {
+      "id": "test-16",
+      "name": "Test result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const a=$json.body;const expected=$('Validate agent tool call').first().json;for(const k of ['serviceId','providerId','customerId','start','end'])if(a[k]!==expected[k])throw Error('Saved appointment mismatch: '+k);const s=$getWorkflowStaticData('global');s.completed=true;s.appointmentId=a.id;return [{json:{success:true,appointmentId:a.id,start:a.start,end:a.end,timezone:'America/Costa_Rica',service:'Cita de demostracion',customer:'Serael Prueba Agente n8n',credential:'EASY APPOINTMENTS API',agentToolCallVerified:true,demo:true}}];"
+      }
+    }
+  ],
+  "connections": {
+    "Run once guard": {
+      "main": [
+        [
+          {
+            "node": "Read demo service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read demo service": {
+      "main": [
+        [
+          {
+            "node": "Select demo service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select demo service": {
+      "main": [
+        [
+          {
+            "node": "Read demo providers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read demo providers": {
+      "main": [
+        [
+          {
+            "node": "Prepare candidate dates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare candidate dates": {
+      "main": [
+        [
+          {
+            "node": "Check available slots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check available slots": {
+      "main": [
+        [
+          {
+            "node": "Choose available slot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choose available slot": {
+      "main": [
+        [
+          {
+            "node": "Create synthetic customer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create synthetic customer": {
+      "main": [
+        [
+          {
+            "node": "Prepare test agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare test agent": {
+      "main": [
+        [
+          {
+            "node": "Test Agent — Decide Booking",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Agent — Decide Booking": {
+      "main": [
+        [
+          {
+            "node": "Validate agent tool call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate agent tool call": {
+      "main": [
+        [
+          {
+            "node": "Agent tool — Create Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent tool — Create Appointment": {
+      "main": [
+        [
+          {
+            "node": "Verify saved Appointment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify saved Appointment": {
+      "main": [
+        [
+          {
+            "node": "Test result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual test": {
+      "main": [
+        [
+          {
+            "node": "Run once guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Temporary test timer": {
+      "main": [
+        [
+          {
+            "node": "Run once guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "timezone": "America/Costa_Rica",
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all"
+  }
+}
