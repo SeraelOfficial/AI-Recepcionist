@@ -1,0 +1,267 @@
+{
+  "clinic": "Splendor Centro Médico",
+  "source": "https://splendorcentromedico.com/",
+  "consultation_duration_minutes": 30,
+  "duration_confirmed": false,
+  "price_confirmed": false,
+  "services": [
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Metamorfosis con Vibrofit",
+      "name": "Valoración: Metamorfosis con Vibrofit",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Metamorfosis Repair con Vibrofit",
+      "name": "Valoración: Metamorfosis Repair con Vibrofit",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Metamorfosis Masculina con Vibrofit",
+      "name": "Valoración: Metamorfosis Masculina con Vibrofit",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Renuvion",
+      "name": "Valoración: Renuvion",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Metamorfosis con Renuvion J Plasma",
+      "name": "Valoración: Metamorfosis con Renuvion J Plasma",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Abdominoplastia",
+      "name": "Valoración: Abdominoplastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Cruroplastia",
+      "name": "Valoración: Cruroplastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías corporales",
+      "procedure": "Braquioplastia",
+      "name": "Valoración: Braquioplastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías mamarias",
+      "procedure": "Implantes torácicos",
+      "name": "Valoración: Implantes torácicos",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías mamarias",
+      "procedure": "Mastopexia con o sin implante",
+      "name": "Valoración: Mastopexia con o sin implante",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías mamarias",
+      "procedure": "Gigantomastia",
+      "name": "Valoración: Gigantomastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías mamarias",
+      "procedure": "Lifting de mamas",
+      "name": "Valoración: Lifting de mamas",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías mamarias",
+      "procedure": "Ginecomastia",
+      "name": "Valoración: Ginecomastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Perfilamiento facial con Renuvion",
+      "name": "Valoración: Perfilamiento facial con Renuvion",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Perfilamiento facial con láser",
+      "name": "Valoración: Perfilamiento facial con láser",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Renuvion facial",
+      "name": "Valoración: Renuvion facial",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Ridectomía",
+      "name": "Valoración: Ridectomía",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Lipolifting",
+      "name": "Valoración: Lipolifting",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Blefaroplastia",
+      "name": "Valoración: Blefaroplastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Blefaroplastia superior",
+      "name": "Valoración: Blefaroplastia superior",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Lifting de tercio medio",
+      "name": "Valoración: Lifting de tercio medio",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Otoplastia",
+      "name": "Valoración: Otoplastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Bichectomía",
+      "name": "Valoración: Bichectomía",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Cirugías faciales",
+      "procedure": "Mentoplastia",
+      "name": "Valoración: Mentoplastia",
+      "source": "https://splendorcentromedico.com/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Toxina botulínica",
+      "name": "Valoración: Toxina botulínica",
+      "source": "https://splendorcentromedico.com/toxina-botulinica-2/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Rellenos faciales",
+      "name": "Valoración: Rellenos faciales",
+      "source": "https://splendorcentromedico.com/rellenos-faciales/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Bioestimulador Radiesse",
+      "name": "Valoración: Bioestimulador Radiesse",
+      "source": "https://splendorcentromedico.com/bioestimuladores/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Bioestimulador Vitten",
+      "name": "Valoración: Bioestimulador Vitten",
+      "source": "https://splendorcentromedico.com/bioestimuladores/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Bioestimulador Ellansé",
+      "name": "Valoración: Bioestimulador Ellansé",
+      "source": "https://splendorcentromedico.com/bioestimuladores/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Bioestimulador Lafullen",
+      "name": "Valoración: Bioestimulador Lafullen",
+      "source": "https://splendorcentromedico.com/bioestimuladores/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Hilos tensores suaves",
+      "name": "Valoración: Hilos tensores suaves",
+      "source": "https://splendorcentromedico.com/hilos-tensores/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Hilos Aptos Excellence Visage",
+      "name": "Valoración: Hilos Aptos Excellence Visage",
+      "source": "https://splendorcentromedico.com/hilos-tensores/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Láser CO2 fraccionado",
+      "name": "Valoración: Láser CO2 fraccionado",
+      "source": "https://splendorcentromedico.com/laser-co2-fraccionado/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Plasma rico en plaquetas (PRP)",
+      "name": "Valoración: Plasma rico en plaquetas (PRP)",
+      "source": "https://splendorcentromedico.com/laser-co2-fraccionado/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Peeling químico",
+      "name": "Valoración: Peeling químico",
+      "source": "https://splendorcentromedico.com/peeling/"
+    },
+    {
+      "category": "Medicina estética",
+      "procedure": "Peeling brasileño",
+      "name": "Valoración: Peeling brasileño",
+      "source": "https://splendorcentromedico.com/peeling/"
+    },
+    {
+      "category": "Otros procedimientos estéticos",
+      "procedure": "Láser ND YAG",
+      "name": "Valoración: Láser ND YAG",
+      "source": "https://splendorcentromedico.com/servicios-varios/"
+    },
+    {
+      "category": "Otros procedimientos estéticos",
+      "procedure": "Depilación láser",
+      "name": "Valoración: Depilación láser",
+      "source": "https://splendorcentromedico.com/servicios-varios/"
+    },
+    {
+      "category": "Otros procedimientos estéticos",
+      "procedure": "Criofraxis",
+      "name": "Valoración: Criofraxis",
+      "source": "https://splendorcentromedico.com/servicios-varios/"
+    },
+    {
+      "category": "Otros procedimientos estéticos",
+      "procedure": "Cosmo Lipo",
+      "name": "Valoración: Cosmo Lipo",
+      "source": "https://splendorcentromedico.com/servicios-varios/"
+    },
+    {
+      "category": "Tratamientos faciales",
+      "procedure": "Hidratación profunda",
+      "name": "Valoración: Hidratación profunda",
+      "source": "https://splendorcentromedico.com/tratamientos-faciales/"
+    },
+    {
+      "category": "Tratamientos faciales",
+      "procedure": "Limpieza facial con microdermoabrasión",
+      "name": "Valoración: Limpieza facial con microdermoabrasión",
+      "source": "https://splendorcentromedico.com/tratamientos-faciales/"
+    },
+    {
+      "category": "Tratamientos faciales",
+      "procedure": "Fototerapia",
+      "name": "Valoración: Fototerapia",
+      "source": "https://splendorcentromedico.com/tratamientos-faciales/"
+    }
+  ]
+}
