@@ -1,0 +1,17 @@
+name: Validate deployment
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose
+        env:
+          BASE_URL: https://citas.example.com
+          DB_PASSWORD: ci-validation-only
+          MYSQL_ROOT_PASSWORD: ci-validation-only-root
+        run: docker compose config --quiet
+      - name: Validate Python scripts
+        run: python3 -m py_compile scripts/init_env.py scripts/check_api.py
