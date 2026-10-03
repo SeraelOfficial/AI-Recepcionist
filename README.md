@@ -10,12 +10,12 @@ Requiere Docker Engine y Docker Compose v2 existentes, Git, Python 3 y acceso a 
 ```bash
 git clone --recurse-submodules https://github.com/SeraelOfficial/AI-Recepcionist.git
 cd AI-Recepcionist
-python3 scripts/init_env.py https://citas.TU-DOMINIO.com
+python3 scripts/init_env.py https://citas.divinosoft.ca
 # Revisar .env y configurar SMTP antes de usar notificaciones.
 docker compose config --quiet
 docker compose pull
 docker compose up -d
- docker compose ps
+docker compose ps
 ```
 
 La app escucha solo en 127.0.0.1:8095. Configurar el proxy HTTPS del subdominio hacia http://127.0.0.1:8095 mediante la configuración de includes admitida por el Apache/NGINX de tu WHM. No sustituir httpd.conf ni ocupar 80/443. Validar el proxy antes de exponer el sitio. No hay cambios automáticos de DNS ni Apache.
@@ -25,12 +25,12 @@ Abrir el subdominio y completar el instalador: administrador, empresa, servicios
 ## Validación de integración
 
 ```bash
-python3 scripts/check_api.py https://citas.TU-DOMINIO.com
+python3 scripts/check_api.py https://citas.divinosoft.ca
 ```
 
-El script solicita el token sin mostrarlo y verifica servicios/profesionales; no crea clientes ni reservas. La prueba completa requiere una cita de demo: disponibilidad → cliente → cita → consultar ID → reprogramar → cancelar, verificando el calendario en cada paso. Esta prueba todavía debe ejecutarse tras la instalación.
+El script solicita el token sin mostrarlo y verifica servicios/profesionales; no crea clientes ni reservas. La prueba completa requiere una cita de demo: disponibilidad → cliente → cita → consultar ID → reprogramar → cancelar, verificando el calendario en cada paso. El ciclo de reservas fue validado en WHM el 3 de octubre de 2026 con datos de prueba que se eliminaron.
 
-API base: https://citas.TU-DOMINIO.com/index.php/api/v1
+API base: https://citas.divinosoft.ca/index.php/api/v1
 
 | Acción | Endpoint |
 |---|---|
@@ -57,3 +57,13 @@ Datos MySQL en volumen persistente; no ejecutar docker compose down -v. Programa
 CI valida Compose y sintaxis de scripts; no representa instalación ni prueba real de reservas.
 
 Referencias: https://github.com/alextselegidis/easyappointments-docker y https://developers.easyappointments.org/api/
+
+## Despliegue actual
+
+Servidor WHM vmi2000. Proyecto: /opt/serael/AI-Recepcionist. Dominio confirmado: citas.divinosoft.ca, cuenta cPanel divinoso. Proxy dedicado en deploy/cpanel.htaccess; AutoSSL de cPanel.
+
+La conexión SSH existente reside en el repositorio privado SeraelOfficial/miniplaylabs, con workflows deploy-ai-recepcionist.yml, publish-ai-recepcionist.yml y verify-ai-recepcionist.yml. No copiar secretos a este repositorio público.
+
+Credenciales de administrador y API generadas durante la inicialización: .bootstrap.json en el servidor, permiso 600 e ignorado por Git. No pegar ese archivo en conversaciones ni logs.
+
+El catálogo actual es de demostración. SMTP y la conexión de herramientas al agente de recepción deben configurarse antes del uso con clientes reales. Las notificaciones están deshabilitadas para las pruebas.
